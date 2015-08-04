@@ -7,7 +7,6 @@ package_dirs:
 
 
 packages:
-  launcher:
   cmake:
   mpi:
     #use: host-mpi

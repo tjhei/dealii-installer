@@ -7,4 +7,5 @@ if [ ! -d "hashstack" ]; then
   git clone https://github.com/hashdist/hashstack.git
 fi
 
-./hashdist/bin/hit build -j 4 --verbose
+./hashdist/bin/hit build -j 4
+#./hashdist/bin/hit build -j 4 --verbose
