@@ -1,0 +1,39 @@
+extends: [cmake_package]
+
+sources:
+- key: tar.gz:jxpxeyzowua6dsau4km7gl6aj7libvx5
+  url: file:dealii-8.3.0.tar.gz
+#  url: https://github.com/dealii/dealii/releases/download/v8.3.0/dealii-8.3.0.tar.gz
+
+
+# The packages list specifies all the packages that you
+# require installed.  <#> will ensure that all packages
+# and their dependencies are installed when you build this
+# profile.
+
+packages:
+  cmake:
+  mpich:
+  blas:
+    use: openblas
+  lapack:
+    use: openblas
+  petsc:
+    build_with: |
+      openblas, parmetis, scotch, suitesparse, superlu_dist, hypre
+    download: |
+      mumps, scalapack, blacs, ml
+    coptflags: -O2
+    link: shared
+    debug: true
+
+dependencies:
+  build: [mpich, openblas, {{build_with}}]
+
+build_stages:
+- name: configure
+  mode: override
+  extra: ['-D CMAKE_CXX_COMPILER:FILEPATH=${MPICXX}',
+          '-D CMAKE_C_COMPILER:FILEPATH=${MPICC}',
+'-D CMAKE_BUILD_TYPE=DebugRelease',
+]

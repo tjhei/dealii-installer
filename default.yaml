@@ -1,0 +1,51 @@
+extends:
+- file: hashstack/linux.yaml
+
+#extends:
+# - name: hashstack
+#   urls: ['https://github.com/hashdist/hashstack.git']
+#   key: 'git:953b1d6ec3d950a50bf4b109667ecf4027917149'
+#key: 'git:1a97d560b12d86d8c36f8e574a1ebb3ea00067b7'
+#   file: linux.yaml
+
+# This profile file controls your <#> (HashDist) build environment.
+
+# In the future, we'll provide better incorporation of
+# automatic environment detection.  For now, have a look
+# at the YAML files in the top-level directory and choose
+# the most *specific* file that matches your environment.
+
+# The packages list specifies all the packages that you
+# require installed.  <#> will ensure that all packages
+# and their dependencies are installed when you build this
+# profile.
+
+package_dirs:
+- pkgs
+- hashstack
+
+
+packages:
+  launcher:
+  cmake:
+  mpi:
+    #use: host-mpi
+    use: mpich
+  blas:
+    use: openblas
+  lapack:
+    use: openblas
+  hypre:
+    with_openblas: true
+    without_check: true
+  petsc:
+    build_with: |
+      openblas, hypre
+#, parmetis, scotch, suitesparse, superlu_dist, hypre
+#    download: |
+#      mumps, scalapack, blacs, ml
+    coptflags: -O2
+    link: shared
+    debug: true
+  dealii:
+    build_with: petsc
